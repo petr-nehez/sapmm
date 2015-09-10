@@ -24,6 +24,7 @@ procedure SAPZeroMemory(const Destination: Pointer; const Size: Integer); inline
 var
   IsSSE2Supported: Boolean = False;
 
+{$IF CompilerVersion > 21.0}
 procedure SSE2MemoryCopy(dst, src: Pointer; Size: Cardinal); inline;
 procedure SSE2MemoryZero(src: Pointer; Size: Cardinal); inline;
 
@@ -32,28 +33,36 @@ procedure SSE2AlignedMemCopy128(dst, src: Pointer; A128bytesmultiple: Integer);
 procedure SSE2AlignedMemCopy16(dst, src: Pointer; A16bytesmultiple: Integer);
 procedure SSE2AlignedMemFill128(dst: Pointer; A128bytesmultiple: Integer);
 procedure SSE2AlignedMemFill16(dst: Pointer; A16bytesmultiple: Integer);
+{$IFEND}
 
 implementation
 
+{$IF CompilerVersion > 21.0}
 {$CODEALIGN 16}
+{$IFEND}
 
 procedure SAPMoveMemory(const Destination, Source: Pointer; const Size: Integer);
 begin
+  {$IF CompilerVersion > 21.0}
   if IsSSE2Supported and (Size >= 128) and ((Cardinal(Source) - Cardinal(Size) >= Cardinal(Destination)) or
     ((Cardinal(Source) + Cardinal(Size)) <= Cardinal(Destination))) then
     SSE2MemoryCopy(Destination, Source, Size)
   else
+  {$IFEND}
     Move(Source^, Destination^, Size);
 end;
 
 procedure SAPZeroMemory(const Destination: Pointer; const Size: Integer);
 begin
+  {$IF CompilerVersion > 21.0}
   if IsSSE2Supported and (Size >= 128) then
     SSE2MemoryZero(Destination, Size)
   else
+  {$IFEND}
     FillChar(Destination^, Size, 0);
 end;
 
+{$IF CompilerVersion > 21.0}
 procedure SSE2AlignedMemCopy128(dst, src: Pointer; A128bytesmultiple: Integer);
 asm
   .align 16
@@ -246,10 +255,12 @@ begin
   {$UNDEF RANGEON}
 {$ENDIF}
 end;
+{$IFEND}
 
 function CPUSupportsSSE2: Boolean;
 begin
   Result := False;
+  {$IF CompilerVersion > 21.0}
   try
     asm
       mov eax, 1
@@ -262,6 +273,7 @@ begin
   except
     // Ignore errors and assume NO SSE
   end;
+  {$IFEND}
 end;
 
 initialization

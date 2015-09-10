@@ -10,7 +10,7 @@
   {$DEFINE SAP_STAT}         // turn on statistics calculation
 
   {$OPTIMIZATION OFF}
-  {$DEBUGINFO    ON}
+  {.$DEBUGINFO    ON}
 {$ELSE}
   {$IFDEF SAP_DEBUG_MEMORY_LEAKS}
 
@@ -24,7 +24,7 @@
   {$ELSE} // normal mode, maximum execution speed
 
     {$OPTIMIZATION ON}
-    {$DEBUGINFO    OFF}
+    {.$DEBUGINFO    OFF}
 
     {$STACKFRAMES  OFF}
   {$ENDIF}

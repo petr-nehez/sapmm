@@ -17,6 +17,11 @@ interface
 uses
   Windows, SAPDefs;
 
+{$IFDEF SAP_MEMORYLEAKS}
+var
+  LogFileName: string;
+{$ENDIF SAP_MEMORYLEAKS}
+
 implementation
 
 uses
@@ -57,13 +62,13 @@ begin
 
   Result := ThreadGetMem(mm, Size);
 
-(*
+{
   //!!!
   stats[stats_count].op := 'G';
   stats[stats_count].size := size;
   stats[stats_count].adr := Result;
   Inc(stats_count);
-*)
+}
 
 end;
 
@@ -346,9 +351,6 @@ end;
 //--------------------------------------
 
 var
-  {$IFDEF SAP_MEMORYLEAKS}
-  LogFileName: string;
-  {$ENDIF SAP_MEMORYLEAKS}
   LogFile: TextFile;
 
 procedure FileOutput(s: string);
@@ -356,7 +358,7 @@ begin
   writeln(LogFile, s);
 end;
 
-(*
+{
 procedure ShowOpStats;
 var
   i: Integer;
@@ -386,12 +388,13 @@ begin
     FileOutput(IntToStr(i) + '. ' + s);
   end;
 end;
-*)
+}
 
 {$IFDEF SAP_MEMORYLEAKS}
 procedure SaveMemoryLeaksReport(x: PSAPThreadMM);
 begin
-  LogFileName := 'leaks.log';
+  if (LogFileName = '') then
+    LogFileName := 'leaks.log';
   AssignFile(LogFile, LogFileName);
 
   if FileExists(LogFileName) then

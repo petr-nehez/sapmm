@@ -213,7 +213,7 @@ function ParseUnitSection(var lno: Integer): Boolean;
       else n := 0
       ;
 
-      Result := Result * 16 + n;
+      Result := Result * 16 + LongWord(n);
       Inc(i);
     end;
   end;

@@ -236,8 +236,8 @@ type PLongWord = ^ LongWord;
 var
   stack_base, stack_pointer: LongWord;
   cur_bp: LongWord;
-  prev_bp: LongWord;
-  p_ip: PLongWord;
+  //prev_bp: LongWord;
+  //p_ip: PLongWord;
   i: Integer;
 begin
   asm

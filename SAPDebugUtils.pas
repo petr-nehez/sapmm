@@ -633,7 +633,7 @@ begin
 
   if inx >= 0 then
   begin
-    if h.block_size <> (inx + 1) * cSmallBlockStep then
+    if h.block_size <> LongWord(inx + 1) * cSmallBlockStep then
     begin
       s := 'wrong block size in block header: ' + IntToStr(h.block_size)
         + ' must be: ' + IntToStr((inx + 1) * cSmallBlockStep);

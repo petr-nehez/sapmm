@@ -15,10 +15,10 @@ uses SAPDefs;
 procedure TieFreeBlock(var list: PSAPFreeBlock; x: PSAPFreeBlock);
 procedure UntieFreeBlock(var list: PSAPFreeBlock; x: PSAPFreeBlock);
 
-procedure TieFreeBlockToSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; size: LongWord); inline;
-procedure UntieFreeBlockFromSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; size: LongWord); inline;
+procedure TieFreeBlockToSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; size: LongWord); {$IF CompilerVersion > 21.0} inline; {$IFEND}
+procedure UntieFreeBlockFromSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; size: LongWord); {$IF CompilerVersion > 21.0} inline; {$IFEND}
 
-procedure MoveFreeBlockToSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; pred_size: LongWord); inline;
+procedure MoveFreeBlockToSizeList(mm: PSAPThreadMM; x: PSAPFreeBlock; pred_size: LongWord); {$IF CompilerVersion > 21.0} inline; {$IFEND}
 
 implementation
 

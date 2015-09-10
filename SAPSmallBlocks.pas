@@ -18,9 +18,9 @@ interface
 
 uses SAPDefs;
 
-function AllocateSmallBlock(mm: PSAPThreadMM; size: LongWord): PSAPSmallAllocatedBlock; inline;
+function AllocateSmallBlock(mm: PSAPThreadMM; size: LongWord): PSAPSmallAllocatedBlock; {$IF CompilerVersion > 21.0} inline; {$IFEND}
 
-procedure FreeSmallBlock(mm: PSAPThreadMM; block: PSAPSmallAllocatedBlock); inline;
+procedure FreeSmallBlock(mm: PSAPThreadMM; block: PSAPSmallAllocatedBlock); {$IF CompilerVersion > 21.0} inline; {$IFEND}
 
 procedure FreeSmallBlocks(mm: PSAPThreadMM; h: PSAPSmallBlocksHeader);
 
